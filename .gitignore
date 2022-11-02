@@ -1,0 +1,5 @@
+.vscode/
+json/
+other/
+teams.*.csv
+.DS_Store
