@@ -10,17 +10,17 @@ def main():
         print("Usage: python hash.py <csv name>")
         exit()
     
-    input_csv = sys.argv[1]
+    input_file = sys.argv[1]
 
     # Count rows in CSV
-    with open(input_csv) as file:
+    with open(input_file) as file:
         row_count = sum(1 for row in file)
 
     # Get CSV filename
-    filename_pair = os.path.splitext(input_csv)
+    filename_pair = os.path.splitext(input_file)
         
-    with open(input_csv, "r") as input_file, open(f"{filename_pair[0]}.output.csv", "w") as output_csv:
-        reader = csv.DictReader(input_file)
+    with open(input_file, "r") as input_csv, open(f"{filename_pair[0]}.output.csv", "w") as output_csv:
+        reader = csv.DictReader(input_csv)
         headers = ["Serial Number", "Filename", "UUID", "HASH"]
         writer = csv.DictWriter(output_csv, fieldnames=headers)
         writer.writeheader()
