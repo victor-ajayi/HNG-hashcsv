@@ -1,6 +1,6 @@
 # HNG-hashcsv
 
-**DISCLAIMER**: This script assumes the input CSV contains the data from all the teams and has 3 fields namely: `Serial Number`, `Filename`, `UUID`
+**PLEASE NOTE**: This script assumes the input CSV contains the data from all the teams and has 3 fields namely: `Serial Number`, `Filename`, `UUID`
 
 Algorithm
 1. Open CSV file

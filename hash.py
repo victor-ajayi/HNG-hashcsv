@@ -10,23 +10,23 @@ def main():
         print("Usage: python hash.py <csv name>")
         exit()
     
-    input_file = sys.argv[1]
+    input_csv = sys.argv[1]
 
     # Count rows in CSV
-    with open(input_file) as file:
-        row_count = sum(1 for row in file)
+    with open(input_csv) as file:
+        row_count = sum(1 for _ in file)
 
     # Get CSV filename
-    filename_pair = os.path.splitext(input_file)
+    filename_pair = os.path.splitext(input_csv)
         
-    with open(input_file, "r") as input_csv, open(f"{filename_pair[0]}.output.csv", "w") as output_csv:
-        reader = csv.DictReader(input_csv)
+    with open(input_csv, "r") as input, open(f"{filename_pair[0]}.output.csv", "w") as output:
+        reader = csv.DictReader(input)
         headers = ["Serial Number", "Filename", "UUID", "HASH"]
-        writer = csv.DictWriter(output_csv, fieldnames=headers)
+        writer = csv.DictWriter(output, fieldnames=headers)
         writer.writeheader()
 
         for row in reader:
-            # Write JSON
+            # Create JSON structure
             dict = {
                 "name": row["Filename"],
                 "description": "",
@@ -38,23 +38,24 @@ def main():
                 }
             }
 
-            # Create JSONs by filenames
+            # Save JSON by filename (if exists in row)
             try:
                 if not os.path.exists("./json/"):
                     os.makedirs("./json/")
-                with open(f"json/{row['Filename']}.json", "w") as json_output:
-                    json.dump(dict, json_output, indent=2)
+                if row["Filename"]:
+                    with open(f"json/{row['Filename']}.json", "w") as json_output:
+                        json.dump(dict, json_output, indent=2)
+
             except FileNotFoundError:
                 sys.exit("File path not found")
 
             # Hash JSON and add to new CSV
-            with open(f"json/{row['Filename']}.json", "rb") as json_output:
-                bytes = json_output.read()
-                hash = sha256(bytes).hexdigest()
-
-                # Update row with hash
-                row.update({ "HASH": hash })
-                writer.writerow(row)
+            if row["Filename"]:
+                with open(f"json/{row['Filename']}.json", "rb") as json_output:
+                    bytes = json_output.read()
+                    hash = sha256(bytes).hexdigest()
+                    row.update({ "HASH": hash })
+                    writer.writerow(row)
 
 
 if __name__ == "__main__":
