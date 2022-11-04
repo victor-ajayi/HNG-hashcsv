@@ -14,6 +14,8 @@ Algorithm
 6. Write row from input CSV + hash (in a new column)
 6. Output the new CSV file as <originalfilename.output.csv>
 
+### Usage 
+Clone the repository and run the following command in the terminal
 ```
-Usage: python hash.py <csv name>
+python hash.py <csv name>
 ```
